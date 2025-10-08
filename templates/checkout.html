@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - PerfumeShop{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h2 class="mb-4">Checkout</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Shipping Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" name="first_name" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <textarea name="address" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">City</label>
+                                <input type="text" name="city" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" name="postal_code" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Country</label>
+                            <input type="text" name="country" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-dark btn-lg">Place Order</button>
+            </form>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    {% for item in cart.items.all %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                        <span>${{ item.total_price }}</span>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Total:</strong>
+                        <strong>${{ cart.total_price }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

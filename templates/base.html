@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Perfume Shop{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    .navbar-brand {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #8B5FBF !important;
+    }
+    .hero-section {
+        background: linear-gradient(rgba(139, 95, 191, 0.8), rgba(106, 61, 148, 0.8)), url('/static/images/hero-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+    }
+    .product-card {
+        transition: transform 0.3s;
+        margin-bottom: 20px;
+        border: 1px solid #E6E6FA;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(12, 12, 12, 0.2);
+    }
+    .sale-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #9B30FF;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+    }
+    .footer {
+        background-color: #4B0082;
+        color: white;
+        padding: 40px 0;
+        margin-top: 50px;
+    }
+    .btn-dark {
+        background-color: #8B5FBF;
+        border-color: #8B5FBF;
+    }
+    .btn-dark:hover {
+        background-color: #6D3FB0;
+        border-color: #6D3FB0;
+    }
+    .btn-outline-dark {
+        color: #8B5FBF;
+        border-color: #8B5FBF;
+    }
+    .btn-outline-dark:hover {
+        background-color: #8B5FBF;
+        border-color: #8B5FBF;
+        color: white;
+    }
+    .navbar-light {
+        background-color: #F8F8FF !important;
+    }
+    .nav-link {
+        color: #6A3D94 !important;
+    }
+    .nav-link:hover {
+        color: #8B5FBF !important;
+    }
+    .text-dark {
+        color: #4B0082 !important;
+    }
+    .bg-light {
+        background-color: #F0E6FF !important;
+    }
+</style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-spa"></i> PerfumeShop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product_list' %}">Products</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'product_list' %}?category={{ category.slug }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="{% url 'cart' %}" class="btn btn-outline-dark me-2">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                        {% if cart_items_count > 0 %}
+                        <span class="badge bg-dark">{{ cart_items_count }}</span>
+                        {% endif %}
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a href="#" class="btn btn-outline-dark">My Account</a>
+                    {% else %}
+                    <a href="#" class="btn btn-outline-dark">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+ <!-- Footer -->
+<footer class="footer" style="background: linear-gradient(135deg, #6A0DAD, #8B5FBF); color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 style="color: #E6E6FA; font-weight: bold;">PerfumeShop</h5>
+                <p style="color: #F0E6FF;">Your destination for luxury fragrances from around the world.</p>
+            </div>
+            <div class="col-md-4">
+                <h5 style="color: #E6E6FA; font-weight: bold;">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'index' %}" style="color: #F0E6FF; text-decoration: none;">Home</a></li>
+                    <li><a href="{% url 'product_list' %}" style="color: #F0E6FF; text-decoration: none;">Products</a></li>
+                    <li><a href="#" style="color: #F0E6FF; text-decoration: none;">About Us</a></li>
+                    <li><a href="#" style="color: #F0E6FF; text-decoration: none;">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 style="color: #E6E6FA; font-weight: bold;">Contact Info</h5>
+                <p style="color: #F0E6FF; line-height: 1.8;">
+                    <i class="fas fa-map-marker-alt" style="color: #D8BFD8;"></i> Sandique Pura Badambag Zafar Park Lahore<br>
+                    <i class="fas fa-phone" style="color: #D8BFD8;"></i> +923274003045<br>
+                    <i class="fas fa-envelope" style="color: #D8BFD8;"></i> frubab255@gmail.com
+                </p>
+            </div>
+        </div>
+        <hr style="border-color: #D8BFD8;">
+        <div class="text-center">
+            <p style="color: #E6E6FA; margin: 0;">&copy; 2025 PerfumeShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // AJAX for adding to cart
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.dataset.productId;
+                    
+                    fetch(`/cart/add/${productId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update cart count in navbar
+                            const cartCount = document.querySelector('.badge');
+                            if (cartCount) {
+                                const currentCount = parseInt(cartCount.textContent) || 0;
+                                cartCount.textContent = currentCount + 1;
+                            }
+                            
+                            // Show success message
+                            alert('Product added to cart!');
+                        }
+                    });
+                });
+            });
+            
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+</body>
+</html>
