@@ -105,6 +105,7 @@
 
 
 
+#settings.py - Django project ka main configuration file
 """
 Django settings for perfume_shop project.
 """
@@ -112,13 +113,13 @@ Django settings for perfume_shop project.
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent           # BASE_DIR: project ka main folder jahan sab files hain
 
-SECRET_KEY = "django-insecure-u46m#4^ao1+-w=+^82yw*y=m_7@9*&o%_i#fs6&hz@bs-sa$@o"
+SECRET_KEY = "django-insecure-u46m#4^ao1+-w=+^82yw*y=m_7@9*&o%_i#fs6&hz@bs-sa$@o"    # SECURITY WARNING: ye secret key private rakhni hoti hai
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']      # ALLOWED_HOSTS: kin domains ya IPs se app access ho sakti hai
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [             # INSTALLED_APPS - ye sab Django apps project me active hain
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -128,8 +129,9 @@ INSTALLED_APPS = [
     "shop",
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = [           #  MIDDLEWARE - request aur response ke beech filter jese kaam karte hain
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -138,9 +140,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "perfume_shop.urls"
+ROOT_URLCONF = "perfume_shop.urls"    # ROOT_URLCONF - Django ko batata hai main urls file kahan hai
 
-TEMPLATES = [
+TEMPLATES = [        # TEMPLATES - HTML templates kahan rakhe hain
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / 'templates'],
@@ -159,14 +161,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "perfume_shop.wsgi.application"
 
-DATABASES = {
+DATABASES = {           #  DATABASES - database connection ka config
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = [       #  STATIC FILES - CSS, JS, images
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
@@ -181,16 +183,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en-us"      # LANGUAGE & TIME SETTINGS
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"   # DEFAULT PRIMARY KEY FIELD TYPE
